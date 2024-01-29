@@ -15,8 +15,7 @@ export function CardsChat() {
 			"role": "assistant",
 			"content": "Bedankt voor het delen van die informatie. Om een beter beeld te krijgen, hoe zou u de klacht van uw kind willen omschrijven?",
 			"question_index": 1,
-			"quick_reply_options": [
-			]
+			"quick_reply_options": []
 		}
     ]);
 
