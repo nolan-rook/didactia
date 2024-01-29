@@ -17,8 +17,8 @@ export function CardsChat() {
 			"question_index": 1,
 			"quick_reply_options": [
 				"Keelpijn",
-				" Hoofdpijn",
-				" Buikpijn"
+				"Hoofdpijn",
+				"Buikpijn"
 			]
 		}
     ]);
