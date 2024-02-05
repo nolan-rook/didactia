@@ -13,9 +13,9 @@ export function CardsChat() {
     const [messages, setMessages] = React.useState([
 		{
 			"role": "assistant",
-			"content": "Bedankt voor het delen van die informatie. Om een beter beeld te krijgen, hoe zou u de klacht van uw kind willen omschrijven?",
-			"question_index": 1,
-			"quick_reply_options": []
+			"content": "Fijn dat u zich heeft aangemeld bij Logopédica. Heeft de aanmelding betrekking op uzelf of op iemand anders, bijvoorbeeld uw kind of een van uw ouders?",
+			"question_index": 0,
+			"quick_reply_options": ["zelf", "ander"]
 		}
     ]);
 
@@ -32,6 +32,9 @@ export function CardsChat() {
 		const latestAssistantMessage = messages.filter(message => message.role === "assistant").at(-1);
 		const newQuestionIndex = latestAssistantMessage.question_index + 1;
 		const answer = option !== null ? option : input;
+
+		// Log the answer and question index before sending to the backend
+		console.log(`Sending to backend: question_index: ${newQuestionIndex}, answer:${answer}`);
 	
 		// First, update with the user's message
 		setMessages(prevMessages => [
@@ -76,11 +79,11 @@ export function CardsChat() {
 			<div className="flex items-center space-x-4">
 				<Avatar>
 				<AvatarImage src="/avatars/01.png" alt="Image" />
-				<AvatarFallback>NR</AvatarFallback>
+				<AvatarFallback>GK</AvatarFallback>
 				</Avatar>
 				<div>
-				<p className="text-sm font-medium leading-none">Nolan Rook</p>
-				<p className="text-sm text-muted-foreground">m@example.com</p>
+				<p className="text-sm font-medium leading-none">Guy Kessels</p>
+				<p className="text-sm text-muted-foreground">guy@logopedica.nl</p>
 				</div>
 			</div>
 			</CardHeader>
