@@ -14,7 +14,7 @@ export function CardsChat() {
 		{
 			"role": "assistant",
 			"content": "Fijn dat u zich heeft aangemeld bij Logopédica. Heeft de aanmelding betrekking op uzelf of op iemand anders, bijvoorbeeld uw kind of een van uw ouders?",
-			"question_index": 0,
+			"question_index": 1,
 			"quick_reply_options": ["zelf", "ander"]
 		}
     ]);
@@ -48,13 +48,16 @@ export function CardsChat() {
 		setInput("");
 		setShowTypingIndicator(true);
 		setQuickReplyOptions([]);
-	
+		
+		console.log(`Before API call: question_index: ${newQuestionIndex}, answer: ${answer}`);
 		// Then, get the API response
 		const apiResponse = await axios.post('https://seal-app-km7kw.ondigitalocean.app/question/', {
 			"question_index": newQuestionIndex,
 			"previous_question": latestAssistantMessage.content,
 			"previous_answer": answer
 		});
+
+		console.log(`API Response:`, apiResponse.data);
 
 		setShowTypingIndicator(false);
 		setQuickReplyOptions(apiResponse.data.quick_reply_options);
