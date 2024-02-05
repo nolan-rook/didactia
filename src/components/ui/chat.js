@@ -14,7 +14,7 @@ export function CardsChat() {
 		{
 			"role": "assistant",
 			"content": "Fijn dat u zich heeft aangemeld bij Logopédica. Heeft de aanmelding betrekking op uzelf of op iemand anders, bijvoorbeeld uw kind of een van uw ouders?",
-			"question_index": 1,
+			"question_index": 0,
 			"quick_reply_options": ["zelf", "ander"]
 		}
     ]);
