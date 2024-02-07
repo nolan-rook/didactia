@@ -23,17 +23,21 @@ export function CardsChat() {
     const [input, setInput] = React.useState("");
 	const [showTypingIndicator, setShowTypingIndicator] = React.useState(false);
 	const [quickReplyOptions, setQuickReplyOptions] = React.useState(messages.at(0)?.quick_reply_options || []); //'Joepie', 'Nee', 'Onbekend'
-    const inputLength = input.trim().length;
+    const [selectedQuickReplyOptions, setSelectedQuickReplyOptions] = React.useState([]);
+	const inputLength = input.trim().length;
 	const [userId] = React.useState(uuidv4());
 
+	React.useEffect(() => {
+		console.log('quickReplyOptions', selectedQuickReplyOptions)
+	}, [selectedQuickReplyOptions]);
+
 	async function handleSubmit(event, option = null) {
-		console.log('handleSubmit', option)
 		event.preventDefault();
-		if (inputLength === 0 && option === null) return;
+		if (inputLength === 0 && selectedQuickReplyOptions.length === 0) return;
 	
 		const latestAssistantMessage = messages.filter(message => message.role === "assistant").at(-1);
 		const newQuestionIndex = latestAssistantMessage.question_index + 1;
-		const answer = option !== null ? option : input;
+		const answer = selectedQuickReplyOptions.length > 0 ? selectedQuickReplyOptions.join(", ") : input;
 
 		// Log the answer and question index before sending to the backend
 		console.log(`Sending to backend: question_index: ${newQuestionIndex}, answer:${answer}`);
@@ -64,6 +68,7 @@ export function CardsChat() {
 
 		setShowTypingIndicator(false);
 		setQuickReplyOptions(apiResponse.data.quick_reply_options);
+		setSelectedQuickReplyOptions([]);
 		
 		console.log(apiResponse.data);
 	
@@ -117,7 +122,16 @@ export function CardsChat() {
 						quickReplyOptions.length > 0 && (
 							<div className="flex flex-row-reverse flex-wrap gap-2 mt-4">
 								{quickReplyOptions.map((option, index) => (
-									<Badge key={index} className="cursor-pointer text-nowrap" variant="outline" onClick={(e) => handleSubmit(e, option)}>{option}</Badge>
+									<Badge key={index} className="cursor-pointer text-nowrap" variant={selectedQuickReplyOptions.includes(option) ? "default" : "outline"} onClick={
+										(e) => {
+											// handleSubmit(e, option)
+											if(selectedQuickReplyOptions.includes(option)) {
+												setSelectedQuickReplyOptions(prevOptions => prevOptions.filter(prevOption => prevOption !== option));
+											} else {
+												setSelectedQuickReplyOptions(prevOptions => [...prevOptions, option]);
+											}
+										}
+									}>{option}</Badge>
 								))}
 							</div>
 						)
@@ -136,8 +150,9 @@ export function CardsChat() {
 						autoComplete="off"
 						value={input}
 						onChange={(event) => setInput(event.target.value)}
+						disabled={selectedQuickReplyOptions.length > 0}
 					/>
-					<Button type="submit" size="icon" disabled={inputLength === 0}>
+					<Button type="submit" size="icon" disabled={inputLength === 0 && selectedQuickReplyOptions.length === 0}>
 					<Send className="h-4 w-4" />
 					<span className="sr-only">Send</span>
 					</Button>
