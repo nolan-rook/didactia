@@ -115,9 +115,9 @@ export function CardsChat() {
 					)}
 					{
 						quickReplyOptions.length > 0 && (
-							<div className="flex flex-row-reverse gap-2 mt-4">
+							<div className="flex flex-row-reverse flex-wrap gap-2 mt-4">
 								{quickReplyOptions.map((option, index) => (
-									<Badge key={index} className="cursor-pointer" variant="outline" onClick={(e) => handleSubmit(e, option)}>{option}</Badge>
+									<Badge key={index} className="cursor-pointer text-nowrap" variant="outline" onClick={(e) => handleSubmit(e, option)}>{option}</Badge>
 								))}
 							</div>
 						)
